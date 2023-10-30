@@ -1,0 +1,50 @@
+<!-- /*************************
+ *  Copyright (c) xTekC.      *
+ *  Licensed under MPL-2.0.   *
+ *  See LICENSE for details.  *
+ *                            *
+ ******************************/ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="description" content="Test PWA">
+  <title>{app_title}</title>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js');
+    }
+  </script>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <!-- <link rel="stylesheet" href="styles.scss"> -->
+  {style_include}
+  
+  <style>
+    html, body {
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div id="main"></div>
+  <script type="module">
+    import init from "/{base_path}/assets/dioxus/{app_name}.js";
+    init("/{base_path}/assets/dioxus/{app_name}_bg.wasm").then(wasm => {
+      if (wasm.__wbindgen_start == undefined) {
+        wasm.main();
+      }
+    });
+
+      // Disable caching during development to always view the latest version.
+      if ('serviceWorker' in navigator && window.location.hash !== "#dev") {
+          window.addEventListener('load', function () {
+              navigator.serviceWorker.register('sw.js');
+          });
+      }
+  </script>
+  {script_include}
+</body>
+</html>

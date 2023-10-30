@@ -1,0 +1,95 @@
+##############################
+#                            #
+#  Copyright (c) xTekC.      #
+#  Licensed under MPL-2.0.   #
+#  See LICENSE for details.  # 
+#                            #
+##############################
+
+name: Continuous Deployment
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  changelog:
+    name: Generate changelog
+    runs-on: ubuntu-latest
+    outputs:
+      release_body: ${{ steps.git-cliff.outputs.content }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Generate a changelog
+        uses: orhun/git-cliff-action@v2
+        id: git-cliff
+        with:
+          config: cliff.toml
+          args: -vv --latest --strip header
+        env:
+          OUTPUT: CHANGELOG.md
+
+  publish-github:
+    name: Publish on GitHub
+    needs: changelog
+    runs-on: ubuntu-latest
+    # runs-on: ${{ matrix.build.OS }}
+    # strategy:
+    #   fail-fast: false
+    #   matrix:
+    #     build:
+    #       - {
+    #           OS: ubuntu-latest,
+    #           TOOLCHAIN: stable,
+    #           TARGET: wasm32-unknown-unknown,
+    #         }
+          # - {
+          #     OS: ubuntu-latest,
+          #     TOOLCHAIN: stable,
+          #     TARGET: wasm64-unknown-unknown,
+          #   }
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
+      # - name: Set up Rust
+      #   uses: dtolnay/rust-toolchain@stable
+      #   with:
+      #     toolchain: ${{ matrix.build.TOOLCHAIN }}
+
+      # - name: Install target
+      #   run: rustup target add ${{ matrix.build.TARGET }}
+
+      # - name: Install and Build release with Dioxus
+      #   run: |
+      #     cargo install dioxus-cli
+      #     dx build --release
+
+      - name: Deploy PWA to Render
+        env:
+          deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          curl "$deploy_url"
+
+      - name: Read CHANGELOG.md and set as new release body
+        id: read_changelog
+        run: |
+          content=$(cat CHANGELOG.md)
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          echo "::set-output name=release_body::$content"
+
+      - name: Upload to Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file: "CHANGELOG.md"
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref }}
+          body: ${{ steps.read_changelog.outputs.release_body }}

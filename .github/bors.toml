@@ -1,0 +1,10 @@
+status = [
+    "Build on ubuntu-latest (wasm32-unknown-unknown)",
+    #"Build on ubuntu-latest (wasm64-unknown-unknown)",
+    "Test",
+    "Check",
+]
+delete_merged_branches = true
+update_base_for_deletes = true
+cut_body_after = "<details>"
+commit_title = "chore(pull): merge ${PR_REFS}"
