@@ -19,7 +19,7 @@
     or
 
     ```
-    sudo dnf install openssl-devel perl-FindBin perl-File-Compare zstd
+    sudo dnf install openssl-devel perl-FindBin perl-File-Compare perl-File-Copy perl-IPC-Cmd zstd
     ```
 
 - __just__ (run commands) `cargo install just` <br> In .bashrc or equivalent `alias j="just"`

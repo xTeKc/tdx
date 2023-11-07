@@ -18,14 +18,51 @@
     }
   </script>
   <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"> -->
   <!-- <link rel="stylesheet" href="styles.scss"> -->
   {style_include}
   
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#808080">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
+
   <style>
-    html, body {
-      overflow: hidden;
-    }
+      html {
+          /* Remove touch delay: */
+          touch-action: manipulation;
+      }
+
+      body {
+          background: #808080;
+      }
+
+      @media (prefers-color-scheme: dark) {
+          body {
+              background: #000000;
+          }
+      }
+
+      html,
+      body {
+          overflow: hidden;
+          margin: 0 !important;
+          padding: 0 !important;
+          height: 100%;
+          width: 100%;
+      }
+
+      .centered {
+          margin-right: auto;
+          margin-left: auto;
+          display: block;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          color: #f0f0f0;
+          font-size: 24px;
+          font-family: Helvetica, sans-serif;
+          text-align: center;
+      }
   </style>
 </head>
 <body>
