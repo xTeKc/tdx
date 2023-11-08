@@ -23,11 +23,11 @@ fn app(cx: Scope<'_>) -> Element<'_> {
               header,
           },
           div {
-              style: "flex: 1; max-height: calc(100vh - 20vh); overflow: hidden; background-color: #000000; width: 99%; margin: auto; border: 2px solid grey;",
+              style: "flex: 1; max-height: calc(100vh - 30vh); overflow: hidden; background-color: #000000; width: 99%; margin: auto; border: 2px solid grey;",
               main_content,
           },
           div {
-              style: "height: 10vh; background-color: #000000; color: #FFFFFF;",
+              style: "height: 20vh; background-color: #000000; color: #FFFFFF;",
               footer,
           },
         }
