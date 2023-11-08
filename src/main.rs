@@ -31,7 +31,7 @@ fn app(cx: Scope<'_>) -> Element<'_> {
            style: "display: flex; flex-direction: column; height: 100vh; background-color: #000000; color: #FFFFFF;",
            header,
            div {
-               style: "flex: 1; max-height: calc(100vh - 100px); overflow: hidden; background-color: #000000; width: 99%; margin: auto; border: 2px solid grey;",
+               style: "max-height: calc(100vh - 100px); overflow: hidden; background-color: #000000; width: 99%; margin: auto; border: 2px solid grey;",
                main_content,
            },
            footer,
