@@ -15,15 +15,26 @@ fn app(cx: Scope<'_>) -> Element<'_> {
     let header = header::render_header(&cx);
     let footer = footer::render_footer(&cx);
     let main_content = content::render_content(&cx);
+    // cx.render(rsx! {
+    //     div {
+    //         style: "display: flex; flex-direction: column; height: 100vh; background-color: #000000; color: #FFFFFF;",
+    //         header,
+    //         div {
+    //             style: "flex: 1; max-height: 100vh; overflow: hidden; background-color: #000000; width: 99%; margin: auto; border: 2px solid grey;",
+    //             main_content,
+    //         },
+    //         footer,
+    //     }
+    // })
     cx.render(rsx! {
         div {
-            style: "display: flex; flex-direction: column; height: 100vh; background-color: #000000; color: #FFFFFF;",
-            header,
-            div {
-                style: "flex: 1; overflow: auto; background-color: #000000; width: 99%; margin: auto; border: 2px solid grey;",
-                main_content,
-            },
-            footer,
+           style: "display: flex; flex-direction: column; height: 100vh; background-color: #000000; color: #FFFFFF;",
+           header,
+           div {
+               style: "flex: 1; max-height: calc(100vh - 100px); overflow: hidden; background-color: #000000; width: 99%; margin: auto; border: 2px solid grey;",
+               main_content,
+           },
+           footer,
         }
-    })
+       })       
 }
